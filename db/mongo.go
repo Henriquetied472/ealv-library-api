@@ -20,7 +20,7 @@ func connect() mongo.Client {
 	ctx, cancel = context.WithTimeout(context.Background(), 10 * time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("LIB_URI")))
 	if err != nil {
-		logplus.Fatalf("Can't connect to the server: %v", err)
+		logplus.Fatalf("Can't connect to the server: %v | %v", err, os.Getenv("LIB_URI"))
 		os.Exit(1)
 	}
 

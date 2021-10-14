@@ -9,7 +9,7 @@ type Book struct {
 	Title   string             `bson:"title,omitempty"`
 	Autor   string             `bson:"autor,omitempty"`
 	Editor  string             `bson:"editor,omitempty"`
-	Year    int                `bson:"release_year,omitempty"`
+	Year    string             `bson:"release_year,omitempty"`
 	LimitDate string		   `bson:"limit_date,omitempty"`
 	Student Student            `bson:"student,omitempty"`
 }
@@ -26,7 +26,7 @@ type RA struct {
 	UF    string `bson:"uf,omitempty"`
 }
 
-func RegisterNewBook(title string, autor string, editor string, year int) *Book {
+func RegisterNewBook(title string, autor string, editor string, year string) *Book {
 	return &Book{
 		Title: title,
 		Autor: autor,
