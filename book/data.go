@@ -21,18 +21,27 @@ type Student struct {
 }
 
 type RA struct {
-	Code  int    `bson:"code,omitempty"`
+	Code  string    `bson:"code,omitempty"`
 	Digit string `bson:"digit,omitempty"`
 	UF    string `bson:"uf,omitempty"`
 }
 
-func RegisterNewBook(title string, autor string, editor string, year string) *Book {
+func BookFromForm(form map[string]string) *Book {
 	return &Book{
-		Title: title,
-		Autor: autor,
-		Editor: editor,
-		Year: year,
-		Student: NilStudent,
+		Title: form["title"],
+		Autor: form["autor"],
+		Editor: form["editor"],
+		Year: form["pubYear"],
+		LimitDate: form["dtLimit"],
+		Student: Student{
+			Name: form["sName"],
+			Class: form["sClass"],
+			SRA: RA{
+				Code: form["raCod"],
+				Digit: form["raDig"],
+				UF: form["raUf"],
+			},
+		},
 	}
 }
 

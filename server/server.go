@@ -36,9 +36,42 @@ func (s *Server) Start() {
 		form["raDig"] = c.Request().Form.Get("bSRaDig")
 		form["raUf"] = c.Request().Form.Get("bSRaUf")
 
-		b := book.RegisterNewBook(form["title"], form["autor"], form["editor"], form["pubYear"])
+		b := book.BookFromForm(form)
 
-		db.AddBook(*b)
+		db.AddBook(b)
+
+		return nil
+	})
+	s.echoServer.PUT("/edit", func(c echo.Context) error {
+		aForm := make(map[string]string)
+		bForm := make(map[string]string)
+
+		aForm["title"] = c.Request().Form.Get("abTitle")
+		aForm["autor"] = c.Request().Form.Get("abAutor")
+		aForm["editor"] = c.Request().Form.Get("abEditor")
+		aForm["pubYear"] = c.Request().Form.Get("abPubYear")
+		aForm["dtLimit"] = c.Request().Form.Get("abDtLimit")
+		aForm["sName"] = c.Request().Form.Get("abSName")
+		aForm["sClass"] = c.Request().Form.Get("abSClass")
+		aForm["raCod"] = c.Request().Form.Get("abSRaCod")
+		aForm["raDig"] = c.Request().Form.Get("abSRaDig")
+		aForm["raUf"] = c.Request().Form.Get("abSRaUf")
+
+		bForm["title"] = c.Request().Form.Get("bbTitle")
+		bForm["autor"] = c.Request().Form.Get("bbAutor")
+		bForm["editor"] = c.Request().Form.Get("bbEditor")
+		bForm["pubYear"] = c.Request().Form.Get("bbPubYear")
+		bForm["dtLimit"] = c.Request().Form.Get("bbDtLimit")
+		bForm["sName"] = c.Request().Form.Get("bbSName")
+		bForm["sClass"] = c.Request().Form.Get("bbSClass")
+		bForm["raCod"] = c.Request().Form.Get("bbSRaCod")
+		bForm["raDig"] = c.Request().Form.Get("bbSRaDig")
+		bForm["raUf"] = c.Request().Form.Get("bbSRaUf")
+
+		ab := book.BookFromForm(aForm)
+		bb := book.BookFromForm(bForm)
+
+		db.EditBook(ab, bb)
 
 		return nil
 	})

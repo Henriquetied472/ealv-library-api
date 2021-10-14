@@ -27,7 +27,7 @@ func connect() mongo.Client {
 	return *client
 }
 
-func AddBook(b book.Book) {
+func AddBook(b *book.Book) {
 	client = connect()
 	defer client.Disconnect(ctx)
 	defer cancel()
@@ -37,7 +37,7 @@ func AddBook(b book.Book) {
 	books.InsertOne(ctx, b)
 }
 
-func RemoveBook(b book.Book) {
+func RemoveBook(b *book.Book) {
 	client = connect()
 	defer client.Disconnect(ctx)
 	defer cancel()
@@ -47,7 +47,7 @@ func RemoveBook(b book.Book) {
 	books.DeleteOne(ctx, b)
 }
 
-func EditBook(ab book.Book, bb book.Book) {
+func EditBook(ab *book.Book, bb *book.Book) {
 	client = connect()
 	defer client.Disconnect(ctx)
 	defer cancel()
@@ -66,7 +66,7 @@ func ListBooksJSON() string {
 
 	cursor, err := books.Find(ctx, book.Book{})
 	if err != nil {
-		logplus.Fatal(err.Error())
+		logplus.Fatalf("Cant open cursor: %v", err.Error())
 		os.Exit(0)
 	}
 
@@ -74,7 +74,7 @@ func ListBooksJSON() string {
 	var jBooks string
 
 	if err = cursor.All(ctx, &lBook); err != nil {
-		logplus.Fatal(err.Error())
+		logplus.Fatalf("Cant find all: ", err.Error())
 		os.Exit(0)
 	}
 
