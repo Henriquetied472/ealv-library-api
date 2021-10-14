@@ -5,7 +5,6 @@ import (
 	"ealv-library-api/db"
 	"net/http"
 
-	"github.com/henriquetied472/logplus"
 	"github.com/labstack/echo/v4"
 )
 
@@ -21,20 +20,20 @@ func NewServer() *Server {
 
 func (s *Server) Start() {
 	s.echoServer.GET("/books", func(c echo.Context) error {
-		return c.String(http.StatusOK, db.ListBooksJSON())
+		return c.JSON(http.StatusOK, db.ListBooksJSON())
 	})
 	s.echoServer.POST("/register", func(c echo.Context) error {
 		form := make(map[string]string)
-		form["title"] = c.Request().Form.Get("bTitle")
-		form["autor"] = c.Request().Form.Get("bAutor")
-		form["editor"] = c.Request().Form.Get("bEditor")
-		form["pubYear"] = c.Request().Form.Get("bPubYear")
-		form["dtLimit"] = c.Request().Form.Get("bDtLimit")
-		form["sName"] = c.Request().Form.Get("bSName")
-		form["sClass"] = c.Request().Form.Get("bSClass")
-		form["raCod"] = c.Request().Form.Get("bSRaCod")
-		form["raDig"] = c.Request().Form.Get("bSRaDig")
-		form["raUf"] = c.Request().Form.Get("bSRaUf")
+		form["title"] = c.FormValue("bTitle")
+		form["autor"] = c.FormValue("bAutor")
+		form["editor"] = c.FormValue("bEditor")
+		form["pubYear"] = c.FormValue("bPubYear")
+		form["dtLimit"] = c.FormValue("bDtLimit")
+		form["sName"] = c.FormValue("bSName")
+		form["sClass"] = c.FormValue("bSClass")
+		form["raCod"] = c.FormValue("bSRaCod")
+		form["raDig"] = c.FormValue("bSRaDig")
+		form["raUf"] = c.FormValue("bSRaUf")
 
 		b := book.BookFromForm(form)
 
@@ -46,27 +45,27 @@ func (s *Server) Start() {
 		aForm := make(map[string]string)
 		bForm := make(map[string]string)
 
-		aForm["title"] = c.Request().Form.Get("abTitle")
-		aForm["autor"] = c.Request().Form.Get("abAutor")
-		aForm["editor"] = c.Request().Form.Get("abEditor")
-		aForm["pubYear"] = c.Request().Form.Get("abPubYear")
-		aForm["dtLimit"] = c.Request().Form.Get("abDtLimit")
-		aForm["sName"] = c.Request().Form.Get("abSName")
-		aForm["sClass"] = c.Request().Form.Get("abSClass")
-		aForm["raCod"] = c.Request().Form.Get("abSRaCod")
-		aForm["raDig"] = c.Request().Form.Get("abSRaDig")
-		aForm["raUf"] = c.Request().Form.Get("abSRaUf")
+		aForm["title"] = c.FormValue("abTitle")
+		aForm["autor"] = c.FormValue("abAutor")
+		aForm["editor"] = c.FormValue("abEditor")
+		aForm["pubYear"] = c.FormValue("abPubYear")
+		aForm["dtLimit"] = c.FormValue("abDtLimit")
+		aForm["sName"] = c.FormValue("abSName")
+		aForm["sClass"] = c.FormValue("abSClass")
+		aForm["raCod"] = c.FormValue("abSRaCod")
+		aForm["raDig"] = c.FormValue("abSRaDig")
+		aForm["raUf"] = c.FormValue("abSRaUf")
 
-		bForm["title"] = c.Request().Form.Get("bbTitle")
-		bForm["autor"] = c.Request().Form.Get("bbAutor")
-		bForm["editor"] = c.Request().Form.Get("bbEditor")
-		bForm["pubYear"] = c.Request().Form.Get("bbPubYear")
-		bForm["dtLimit"] = c.Request().Form.Get("bbDtLimit")
-		bForm["sName"] = c.Request().Form.Get("bbSName")
-		bForm["sClass"] = c.Request().Form.Get("bbSClass")
-		bForm["raCod"] = c.Request().Form.Get("bbSRaCod")
-		bForm["raDig"] = c.Request().Form.Get("bbSRaDig")
-		bForm["raUf"] = c.Request().Form.Get("bbSRaUf")
+		bForm["title"] = c.FormValue("bbTitle")
+		bForm["autor"] = c.FormValue("bbAutor")
+		bForm["editor"] = c.FormValue("bbEditor")
+		bForm["pubYear"] = c.FormValue("bbPubYear")
+		bForm["dtLimit"] = c.FormValue("bbDtLimit")
+		bForm["sName"] = c.FormValue("bbSName")
+		bForm["sClass"] = c.FormValue("bbSClass")
+		bForm["raCod"] = c.FormValue("bbSRaCod")
+		bForm["raDig"] = c.FormValue("bbSRaDig")
+		bForm["raUf"] = c.FormValue("bbSRaUf")
 
 		ab := book.BookFromForm(aForm)
 		bb := book.BookFromForm(bForm)
@@ -75,6 +74,9 @@ func (s *Server) Start() {
 
 		return nil
 	})
+	s.echoServer.DELETE("/delete", func(c echo.Context) error {
+		return nil
+	})
 
-	logplus.Fatal(s.echoServer.Start(":3030").Error())
+	s.echoServer.Start(":3030")
 }
